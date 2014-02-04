@@ -58,7 +58,7 @@ public class CIBuilder
 	{
 		if (suffixes != null && suffixes.Length > 0)
 		{
-			return "_" + string.Join ("", suffixes);
+			return string.Format ("_{0}", string.Join ("", suffixes)).ToLower ();
 		}
 		else
 		{

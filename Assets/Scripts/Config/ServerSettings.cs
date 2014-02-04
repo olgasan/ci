@@ -2,18 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public enum ServerEnvironment
-{
-	Dev,
-	Test,
-	Live,
-	Local
-}
-
 [System.Serializable]
 public class ServerConfigParameter
 {
-	public ServerEnvironment environment = ServerEnvironment.Dev;
+	public ServerEnvironment environment = ServerEnvironment.Development;
 	public string baseUrl = string.Empty;
 }
 
