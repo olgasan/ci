@@ -7,7 +7,7 @@ public class CIBuildLabel : MonoBehaviour
 	private const int REVISION_LINE = 0;
 	private const int DATE_LINE = 1;
 	
-	private string fileName = "LabelInformation";
+	private string fileName = "BuildInfo";
 	private string revision;
 	private string date;
 	private string labelText;
