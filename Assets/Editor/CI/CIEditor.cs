@@ -6,18 +6,35 @@ using System;
 
 public class CIEditor
 {
-	[MenuItem ("Tools/CI/Perform iOS build")]
-	private static void PerformIOSBuild ()
+	[MenuItem ("Tools/CI/Perform iOS - Dev")]
+	private static void PerformIOSBuildDev ()
 	{
-		string filepath = CIBuilder.GetBuildFilepath (BuildTarget.iPhone);
+		ServerSettingsEditor.SwitchTo (ServerEnvironment.Dev);
+		string filepath = CIBuilder.GetBuildFilepath (BuildTarget.iPhone, ServerEnvironment.Dev.ToString());
 		CIBuilder.DoBuild (BuildTarget.iPhone, filepath);
 	}
-
-	[MenuItem ("Tools/CI/Perform Android build")]
-	private static void PerformAndroidBuild ()
+	
+	[MenuItem ("Tools/CI/Perform - iOS Test")]
+	private static void PerformIOSBuildTest ()
 	{
-		string filepath = CIBuilder.GetBuildFilepath (BuildTarget.Android);
+		ServerSettingsEditor.SwitchTo (ServerEnvironment.Test);
+		string filepath = CIBuilder.GetBuildFilepath (BuildTarget.iPhone, ServerEnvironment.Test.ToString());
+		CIBuilder.DoBuild (BuildTarget.iPhone, filepath);
+	}
+	
+	[MenuItem ("Tools/CI/Perform Android - Dev")]
+	private static void PerformAndroidBuildDev ()
+	{
+		ServerSettingsEditor.SwitchTo (ServerEnvironment.Dev);
+		string filepath = CIBuilder.GetBuildFilepath (BuildTarget.Android, ServerEnvironment.Dev.ToString());
 		CIBuilder.DoBuild (BuildTarget.Android, filepath);
 	}
 	
+	[MenuItem ("Tools/CI/Perform Android - Test")]
+	private static void PerformAndroidBuildTest ()
+	{
+		ServerSettingsEditor.SwitchTo (ServerEnvironment.Test);
+		string filepath = CIBuilder.GetBuildFilepath (BuildTarget.Android, ServerEnvironment.Test.ToString());
+		CIBuilder.DoBuild (BuildTarget.Android, filepath);
+	}
 }
