@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class ServerConfigParameter
 {
 	public ServerEnvironment environment = ServerEnvironment.Development;
-	public string baseUrl = string.Empty;
+	public string domain = string.Empty;
 }
 
 public class ServerSettings : ScriptableObject
@@ -40,7 +40,7 @@ public class ServerSettings : ScriptableObject
 		#endif
 	}
 
-	public string BaseUrl
+	public string Domain
 	{
 		get
 		{

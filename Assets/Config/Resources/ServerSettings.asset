@@ -14,10 +14,10 @@ MonoBehaviour:
   currentEnvironment: 0
   parameters:
   - environment: 0
-    baseUrl: http://mydevurl.com
+    domain: http:/mydev.com
   - environment: 1
-    baseUrl: http://mytesturl.com
+    domain: http://mytest.com
   - environment: 2
-    baseUrl: http://myliveurl.com
+    domain: http://mylive.com
   - environment: 3
-    baseUrl: http://localhost
+    domain: http://localhost
