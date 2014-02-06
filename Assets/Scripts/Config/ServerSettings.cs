@@ -26,7 +26,10 @@ public class ServerSettings : ScriptableObject
 		get
 		{
 			if (instance == null)
+			{
 				instance = Resources.Load (ASSET_NAME) as ServerSettings;
+			}
+
 
 			return instance;
 		}
@@ -46,9 +49,11 @@ public class ServerSettings : ScriptableObject
 		{
 			if (parameters != null)
 			{
-				parameters.Find (delegate(ServerConfigParameter config) {
+				ServerConfigParameter p = parameters.Find (delegate(ServerConfigParameter config) {
 					return config.environment == this.currentEnvironment;
 				});
+
+				return p.domain;
 			}
 
 			return null;
