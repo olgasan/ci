@@ -34,4 +34,17 @@ public class CIBackendEditor
 		string filepath = CIBuilder.GetBuildFilepath (BuildTarget.Android, ServerEnvironment.Testing.ToString());
 		CIBuilder.DoBuild (BuildTarget.Android, filepath);
 	}
+
+	private static void PerformBuild ()
+	{
+		string platform = CommandLineReader.GetCustomArgument("Platform").ToLower ();
+		string environment = CommandLineReader.GetCustomArgument("Environment").ToLower ();
+
+		BuildTarget p = (platform == "android") ? BuildTarget.Android : BuildTarget.iPhone;
+		ServerEnvironment e = (environment == "test") ? ServerEnvironment.Testing : ServerEnvironment.Development;
+
+		ServerSettingsEditor.SwitchTo (e);
+		string filepath = CIBuilder.GetBuildFilepath (p, e.ToString());
+		CIBuilder.DoBuild (p, filepath);
+	}
 }
