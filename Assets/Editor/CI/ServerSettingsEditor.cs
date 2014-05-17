@@ -15,7 +15,8 @@ public class ServerSettingsEditor
 			if (instance == null)
 			{
 				instance = ScriptableObject.CreateInstance<ServerSettings>();
-				AssetHelper.CreateAsset (ServerSettings.ASSET_NAME, instance);
+				AssetHelper assetHelper = new AssetHelper ();
+				assetHelper.CreateAsset (ServerSettings.ASSET_NAME, instance);
 			}
 
 			return instance;

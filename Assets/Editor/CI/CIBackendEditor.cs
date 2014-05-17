@@ -1,10 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using System.Collections.Generic;
-using System.IO;
-using System;
 
-public class CIEditor
+public class CIBackendEditor 
 {
 	[MenuItem ("Tools/CI/Perform iOS - Dev")]
 	private static void PerformIOSBuildDev ()
