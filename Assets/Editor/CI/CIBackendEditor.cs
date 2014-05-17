@@ -35,7 +35,6 @@ public class CIBackendEditor
 		CIBuilder.DoBuild (BuildTarget.Android, filepath);
 	}
 	
-	[MenuItem ("Tools/CI/Perform Build")]
 	private static void PerformBuild ()
 	{
 		string platform = CommandLineReader.GetCustomArgument("Platform").ToLower ();
