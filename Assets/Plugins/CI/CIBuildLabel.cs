@@ -4,18 +4,18 @@ using System;
 
 public class CIBuildLabel : MonoBehaviour 
 {
-	private const int REVISION_LINE = 0;
+	private const int BRANCH_LINE = 0;
 	private const int DATE_LINE = 1;
 	
 	private string fileName = "BuildInfo";
-	private string revision;
+	private string branch;
 	private string date;
 	private string labelText;
 	private Rect labelPosition;
 	
 	private string Text
 	{
-		get { return string.Format ("|R{0}|{1}|{2}|", revision, date, ServerSettings.Instance.CurrentEnvironment); }
+		get { return string.Format ("|{0}|{1}|{2}|", branch, date, ServerSettings.Instance.CurrentEnvironment); }
 	}
 	
 	private void Start ()
@@ -31,7 +31,7 @@ public class CIBuildLabel : MonoBehaviour
 			enabled = false;
 		}
 	}
-
+	
 	private void InitializeLabel ()
 	{
 		float width = 380F;
@@ -41,7 +41,7 @@ public class CIBuildLabel : MonoBehaviour
 		labelText = Text;
 		labelPosition = new Rect (x, y, width, height);
 	}
-
+	
 	private string[] GetInformationFile ()
 	{
 		string[] lines = null;
@@ -58,12 +58,12 @@ public class CIBuildLabel : MonoBehaviour
 		
 		return lines;
 	}
-
+	
 	private void ParseFileLines (string[] lines)
 	{
 		if (lines != null && lines.Length >= 2)
 		{
-			revision = lines [REVISION_LINE];
+			branch = lines [BRANCH_LINE];
 			date = lines [DATE_LINE];
 		}
 	}
