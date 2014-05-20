@@ -1,68 +1,61 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using System.Collections.Generic;
-using System.IO;
 using System;
 
-public class CIBuilder
+public class CIBackendEditor 
 {
-	private static string[] SCENES = FindEnabledEditorScenes ();
-	private static string TARGET_DIR = Environment.GetFolderPath (System.Environment.SpecialFolder.Desktop) + "/builds/" + CISettings.AppName;
-	
-	public static void DoBuild (BuildTarget target, string filepath)
+	[MenuItem ("Tools/CI/Perform iOS - Dev")]
+	private static void PerformIOSBuildDev ()
 	{
-		GenericBuild (SCENES, filepath, target, CISettings.Options);
+		DoBuildWithParameters (BuildTarget.iPhone, ServerEnvironment.Development);
 	}
 	
-	private static string[] FindEnabledEditorScenes ()
+	[MenuItem ("Tools/CI/Perform - iOS Test")]
+	private static void PerformIOSBuildTest ()
 	{
-		List<string> EditorScenes = new List<string> ();
-		foreach (EditorBuildSettingsScene scene in EditorBuildSettings.scenes)
-		{
-			if (!scene.enabled)
-				continue;
-			EditorScenes.Add (scene.path);
-		}
-		return EditorScenes.ToArray ();
+		DoBuildWithParameters (BuildTarget.iPhone, ServerEnvironment.Testing);
 	}
 	
-	private static void GenericBuild (string[] scenes, string target_dir, BuildTarget build_target, BuildOptions build_options)
+	[MenuItem ("Tools/CI/Perform Android - Dev")]
+	private static void PerformAndroidBuildDev ()
 	{
-		EditorUserBuildSettings.SwitchActiveBuildTarget (build_target);
-		string res = BuildPipeline.BuildPlayer (scenes, target_dir, build_target, build_options);
-		if (res.Length > 0)
-		{
-			throw new Exception ("BuildPlayer failure: " + res);
-		}
+		DoBuildWithParameters (BuildTarget.Android, ServerEnvironment.Development);
 	}
 	
-	public static string GetBuildFilepath (BuildTarget target, params string[] suffixes)
+	[MenuItem ("Tools/CI/Perform Android - Test")]
+	private static void PerformAndroidBuildTest ()
 	{
-		string path = TARGET_DIR + "/" + target.ToString ();
-		string suffix = GetSuffixAsString (suffixes);
+		DoBuildWithParameters (BuildTarget.Android, ServerEnvironment.Testing);
+	}
+	
+	private static void PerformBuild ()
+	{
+		BuildTarget platform = ConvertToEnum <BuildTarget> (CommandLineReader.GetCustomArgument("Platform"));
+		ServerEnvironment environment = ConvertToEnum <ServerEnvironment> (CommandLineReader.GetCustomArgument("Environment"));
 		
-		if (!Directory.Exists (path))
-			Directory.CreateDirectory (path);
-		
-		switch (target)
-		{
-		case BuildTarget.Android:
-			return string.Format ("{0}/{1}{2}.{3}", path, CISettings.AppName, suffix, "apk");
-			
-		default:
-			return string.Format ("{0}/{1}{2}", path, CISettings.AppName, suffix);
-		}
+		DoBuildWithParameters (platform, environment);
 	}
-
-	private static string GetSuffixAsString (string[] suffixes)
+	
+	private static void DoBuildWithParameters (BuildTarget platform, ServerEnvironment environment)
 	{
-		if (suffixes != null && suffixes.Length > 0)
+		ServerSettingsEditor.SwitchTo (environment);
+		string filepath = CIBuilder.GetBuildFilepath (platform, environment.ToString());
+		CIBuilder.DoBuild (platform, filepath);
+	}
+	
+	private static T ConvertToEnum <T> (string str)
+	{
+		T parsedEnum = default (T);
+		
+		try 
 		{
-			return string.Format ("_{0}", string.Join ("", suffixes)).ToLower ();
+			parsedEnum = (T) Enum.Parse(typeof(T), str);        
 		}
-		else
+		catch (System.ArgumentException) 
 		{
-			return string.Empty;
+			Debug.Log (string.Format ("ERROR: '{0}' is not a member of the enumeration.", str));
 		}
+		
+		return parsedEnum;
 	}
 }
