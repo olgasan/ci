@@ -1,50 +1,60 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using System;
 
 public class CIBackendEditor 
 {
 	[MenuItem ("Tools/CI/Perform iOS - Dev")]
 	private static void PerformIOSBuildDev ()
 	{
-		ServerSettingsEditor.SwitchTo (ServerEnvironment.Development);
-		string filepath = CIBuilder.GetBuildFilepath (BuildTarget.iPhone, ServerEnvironment.Development.ToString());
-		CIBuilder.DoBuild (BuildTarget.iPhone, filepath);
+		DoBuildWithParameters (BuildTarget.iPhone, ServerEnvironment.Development);
 	}
 	
 	[MenuItem ("Tools/CI/Perform - iOS Test")]
 	private static void PerformIOSBuildTest ()
 	{
-		ServerSettingsEditor.SwitchTo (ServerEnvironment.Testing);
-		string filepath = CIBuilder.GetBuildFilepath (BuildTarget.iPhone, ServerEnvironment.Testing.ToString());
-		CIBuilder.DoBuild (BuildTarget.iPhone, filepath);
+		DoBuildWithParameters (BuildTarget.iPhone, ServerEnvironment.Testing);
 	}
 	
 	[MenuItem ("Tools/CI/Perform Android - Dev")]
 	private static void PerformAndroidBuildDev ()
 	{
-		ServerSettingsEditor.SwitchTo (ServerEnvironment.Development);
-		string filepath = CIBuilder.GetBuildFilepath (BuildTarget.Android, ServerEnvironment.Development.ToString());
-		CIBuilder.DoBuild (BuildTarget.Android, filepath);
+		DoBuildWithParameters (BuildTarget.Android, ServerEnvironment.Development);
 	}
 	
 	[MenuItem ("Tools/CI/Perform Android - Test")]
 	private static void PerformAndroidBuildTest ()
 	{
-		ServerSettingsEditor.SwitchTo (ServerEnvironment.Testing);
-		string filepath = CIBuilder.GetBuildFilepath (BuildTarget.Android, ServerEnvironment.Testing.ToString());
-		CIBuilder.DoBuild (BuildTarget.Android, filepath);
+		DoBuildWithParameters (BuildTarget.Android, ServerEnvironment.Testing);
+	}
+
+	private static void DoBuildWithParameters (BuildTarget platform, ServerEnvironment environment)
+	{
+		ServerSettingsEditor.SwitchTo (environment);
+		string filepath = CIBuilder.GetBuildFilepath (platform, environment.ToString());
+		CIBuilder.DoBuild (platform, filepath);
+	}
+
+	private static T ParseEnum <T> (string str)
+	{
+		T value = default (T);
+
+		try
+		{
+			value = (T) Enum.Parse(typeof(T), str);
+		}
+		catch (ArgumentException)
+		{
+			Debug.Log (string.Format ("ERROR: {0} is not an underlying value of the enumeration.", str));
+		}
+
+		return value;
 	}
 	
 	private static void PerformBuild ()
 	{
-		string platform = CommandLineReader.GetCustomArgument("Platform").ToLower ();
-		string environment = CommandLineReader.GetCustomArgument("Environment").ToLower ();
-		
-		BuildTarget p = (platform == "android") ? BuildTarget.Android : BuildTarget.iPhone;
-		ServerEnvironment e = (environment == "test") ? ServerEnvironment.Testing : ServerEnvironment.Development;
-		
-		ServerSettingsEditor.SwitchTo (e);
-		string filepath = CIBuilder.GetBuildFilepath (p, e.ToString());
-		CIBuilder.DoBuild (p, filepath);
+		BuildTarget platform = ParseEnum <BuildTarget> (CommandLineReader.GetCustomArgument("Platform"));
+		ServerEnvironment environment = ParseEnum <ServerEnvironment> (CommandLineReader.GetCustomArgument("Environment"));
+		DoBuildWithParameters (platform, environment);
 	}
 }
