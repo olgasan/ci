@@ -47,10 +47,10 @@ public class CIBuilder
 		switch (target)
 		{
 		case BuildTarget.Android:
-			return string.Format ("{0}/{1}{2}.{3}", path, CISettings.AppName, suffix, "apk");
+			return string.Format ("{0}/{1}{2}_{3}.{4}", path, CISettings.AppName, suffix, PlayerSettings.bundleVersion, "apk");
 			
 		default:
-			return string.Format ("{0}/{1}{2}", path, CISettings.AppName, suffix);
+			return string.Format ("{0}/{1}{2}_{3}", path, CISettings.AppName, suffix, PlayerSettings.bundleVersion);
 		}
 	}
 

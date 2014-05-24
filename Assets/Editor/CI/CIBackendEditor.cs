@@ -10,7 +10,7 @@ public class CIBackendEditor
 			preBuildOperations (platform);
 
 		ServerSettingsEditor.SwitchTo (environment);
-		string filepath = CIBuilder.GetBuildFilepath (platform, environment.ToString()) + "_" + PlayerSettings.bundleVersion;
+		string filepath = CIBuilder.GetBuildFilepath (platform, environment.ToString());
 		CIBuilder.DoBuild (platform, filepath);
 	}
 
