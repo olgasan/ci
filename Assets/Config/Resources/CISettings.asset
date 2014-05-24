@@ -11,5 +11,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a497c5442c6aa04588ea66dec2d83db, type: 3}
   m_Name: CISettings
   m_EditorClassIdentifier: 
-  appName: myAppName
+  appName: ci
   buildOptions: 1
