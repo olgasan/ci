@@ -6,15 +6,15 @@ using System;
 
 public class CIEditor
 {
-	[MenuItem ("Tools/CI/Perform iOS")]
+	[MenuItem ("Tools/CI/Perform iOS", false, 30)]
 	private static void PerformIOS ()
 	{
 		string filepath = CIBuilder.GetBuildFilepath (BuildTarget.iPhone);
 		CIBuilder.DoBuild (BuildTarget.iPhone, filepath);
 		Debug.Log ("CI -> Perform iOS");
 	}
-	
-	[MenuItem ("Tools/CI/Perform Android")]
+
+	[MenuItem ("Tools/CI/Perform Android", false, 50)]
 	private static void PerformAndroid ()
 	{
 		string filepath = CIBuilder.GetBuildFilepath (BuildTarget.Android);

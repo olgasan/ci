@@ -3,7 +3,7 @@ using UnityEditor;
 
 public class CIPlugin
 {
-	[MenuItem ("Tools/CI/Package Core", false, 22)]
+	[MenuItem ("Tools/CI/Package Core", false, 10)]
 
 	public static void PackageCore ()
 	{
@@ -20,7 +20,7 @@ public class CIPlugin
 		packager.Pack (assetPaths, "/ci-core.unitypackage");
 	}
 
-	[MenuItem ("Tools/CI/Package with ServerSettings", false, 22)]
+	[MenuItem ("Tools/CI/Package with ServerSettings", false, 10)]
 	public static void PackageServer ()
 	{
 		PluginPackager packager = new PluginPackager ();

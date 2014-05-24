@@ -125,7 +125,7 @@ public class CommandLineReader
 		else
 		{
 			Debug.LogError("CommandLineReader.cs - GetCustomArgument() - Can't retrieve any custom argument named [" + argumentName + "] in the command line [" + GetCommandLine() + "].");
-			return "";
+			return string.Empty;
 		}
 	}
 }

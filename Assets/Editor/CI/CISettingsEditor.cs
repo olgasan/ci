@@ -23,7 +23,7 @@ public class CISettingsEditor
 	}
 
 	[MenuItem("Config/CI Settings")]
-	[MenuItem("Tools/CI/Settings", false, 10)]
+	[MenuItem("Tools/CI/Settings", false, 0)]
 	public static void Edit()
 	{
 		Selection.activeObject = ObjInstance;
