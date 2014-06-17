@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEditor;
+using System.Collections.Generic;
 
 public class CISettings : ScriptableObject
 {
@@ -10,7 +11,7 @@ public class CISettings : ScriptableObject
 	private string appName = "myAppName";
 
 	[SerializeField]
-	private BuildOptions buildOptions = BuildOptions.Development;
+	private CIAndroidKeystoreConfig keystoreConfig;
 
 	private static CISettings instance;
 	
@@ -33,8 +34,8 @@ public class CISettings : ScriptableObject
 		get { return Instance.appName; }
 	}
 
-	public static BuildOptions Options
+	public static CIAndroidKeystoreConfig KeystoreConfig 
 	{
-		get { return Instance.buildOptions; }
+		get { return Instance.keystoreConfig; }
 	}
 }
