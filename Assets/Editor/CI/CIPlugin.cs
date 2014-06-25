@@ -7,7 +7,7 @@ public class CIPlugin
 
 	public static void PackageCore ()
 	{
-		PluginPackager packager = new PluginPackager ();
+		PluginUtils packager = new PluginUtils ();
 		
 		string[] assetPaths = new string[]
 		{
@@ -23,7 +23,7 @@ public class CIPlugin
 	[MenuItem ("Tools/CI/Package with ServerSettings", false, 10)]
 	public static void PackageServer ()
 	{
-		PluginPackager packager = new PluginPackager ();
+		PluginUtils packager = new PluginUtils ();
 		
 		string[] assetPaths = new string[]
 		{
